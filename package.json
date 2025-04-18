@@ -1,0 +1,25 @@
+{
+  "name": "aii-cli",
+  "version": "1.0.0-beta.0",
+  "description": "Quickly create aii templates.",
+  "main": "src/index.js",
+  "type": "module",
+  "bin": {
+    "aii": "./src/bin/aii-cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "aii_group",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "commander": "^13.1.0",
+    "download-git-repo": "^3.0.2",
+    "fs-extra": "^11.3.0",
+    "handlebars": "^4.7.8",
+    "inquirer": "^12.5.2",
+    "ora": "^8.2.0"
+  }
+}
