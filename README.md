@@ -7,7 +7,7 @@ Quick Creation Tools
 You can install this package using npm:
 
 ```
-npm install aii
+npm install aii-cli
 ```
 
 ## Usage
