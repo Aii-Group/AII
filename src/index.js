@@ -2,7 +2,7 @@
 
 import { program } from 'commander';
 import chalk from 'chalk';
-import { createProject } from './lib/create.js';
+import { createProject, createPage } from './lib/create.js';
 
 program
   .version('1.0.0')
@@ -18,9 +18,21 @@ program
     }
   });
 
+program
+ .command('add <page-name>')
+ .description('Add a new page')
+ .option('-f, --force', 'If the target page already exists, it will be overwritten.')
+ .action(async (name, cmd) => {
+    try {
+      await createPage(name, cmd.force);
+    } catch (error) {
+      console.error(chalk.red('Failed to create page:'), error);
+    }
+ })
+
 program.on('--help', () => {
   console.log('');
-  console.log(`run ${chalk.cyan('aii <command> --help')} view details`);
+  console.log(`Run ${chalk.cyan('aii <command> --help')} view details`);
   console.log('');
 });
 

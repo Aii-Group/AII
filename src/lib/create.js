@@ -131,3 +131,70 @@ export async function createProject(projectName) {
   console.log(chalk.blue(`📦 pnpm install`));
   console.log(chalk.blue(`⚡ pnpm run dev`));
 }
+
+export async function createPage(pageName) {
+  const projectRoot = process.cwd();
+  const pageDir = `${projectRoot}/src/pages/${pageName}`;
+  const pagePath = `${pageDir}/index.tsx`;
+
+  try {
+    if (fs.existsSync(pageDir)) {
+      console.log(chalk.red(`❌ Page directory "${pageName}" already exists.`));
+
+      const { action } = await inquirer.prompt([
+        {
+          type: "list",
+          name: "action",
+          message: "The page already exists. Please choose an action:",
+          choices: [
+            { name: "Overwrite the existing page", value: "overwrite" },
+            { name: "Enter a different page name", value: "rename" },
+          ],
+        },
+      ]);
+
+      if (action === "overwrite") {
+        console.log(chalk.yellow(`Overwriting the existing page "${pageName}"...`));
+        await fs.remove(pageDir);
+      } else if (action === "rename") {
+        const { newName } = await inquirer.prompt([
+          {
+            type: "input",
+            name: "newName",
+            message: "Please enter a new page name:",
+            validate: (input) => {
+              if (!input) return "Page name cannot be empty!";
+              if (fs.existsSync(`${projectRoot}/src/pages/${input}`))
+                return "Page directory already exists, please enter a different name!";
+              return true;
+            },
+          },
+        ]);
+        pageName = newName;
+        return createPage(pageName);
+      }
+    }
+
+    await fs.ensureDir(pageDir);
+
+    const pageContent = `
+      import React from 'react';
+
+      const ${pageName}: React.FC = () => {
+        return (
+          <div>
+            <h1>Welcome to ${pageName} page</h1>
+          </div>
+        );
+      };
+
+      export default ${pageName};
+    `;
+
+    await fs.writeFile(pagePath, pageContent.trim(), "utf8");
+    console.log(chalk.green(`🎉 Page "${pageName}" created successfully at ${pagePath}!`));
+  } catch (error) {
+    console.error(chalk.red(`❌ Failed to create page "${pageName}".`));
+    console.error(error);
+  }
+}
