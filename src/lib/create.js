@@ -10,7 +10,7 @@ const downloadRepo = promisify(download);
 export async function createProject(projectName) {
   const targetDir = `./${projectName}`;
   if (fs.existsSync(targetDir)) {
-    console.log(chalk.red(`‼️ Directory ${projectName} already exists.`));
+    console.log(chalk.red(`Directory ${projectName} already exists.`));
 
     const { action } = await inquirer.prompt([
       {
@@ -25,7 +25,7 @@ export async function createProject(projectName) {
     ]);
 
     if (action === "overwrite") {
-      console.log(chalk.yellow(`⏱️ Overwriting directory ${projectName}...`));
+      console.log(chalk.yellow(`Overwriting directory ${projectName}...`));
       await fs.remove(targetDir);
     } else if (action === "rename") {
       const { newName } = await inquirer.prompt([
@@ -66,7 +66,6 @@ export async function createProject(projectName) {
   try {
     spinner.text = `Downloading template, please wait...`;
     spinner.color = "yellow";
-    spinner.prefixText = "⏳";
     await downloadRepo(template, targetDir);
     spinner.succeed(chalk.green("Template downloaded successfully!"));
   } catch (error) {
@@ -84,12 +83,12 @@ export async function createProject(projectName) {
     const packageJson = await fs.readJSON(packageJsonPath);
     packageJson.name = projectName;
     await fs.writeJSON(packageJsonPath, packageJson, { spaces: 2 });
-    console.log(chalk.green("⚒️ package.json has been updated!"));
+    console.log(chalk.green("⚒️  package.json has been updated!"));
   }
 
-  console.log(chalk.green(`🎉Project ${projectName} created successfully!`));
+  console.log(chalk.green(`🎉 Project <${projectName}> created successfully!`));
 
-  if (template === "Aii-Group/AII-Admin-Cli#master") {
+  if (template === "Aii-Group/AII-Admin-Cli#main") {
     console.log(
       chalk.blue(`
            █████╗ ██╗██╗     █████╗ ██████╗ ███╗   ███╗██╗███╗   ██╗
@@ -100,7 +99,7 @@ export async function createProject(projectName) {
           ╚═╝  ╚═╝╚═╝╚═╝    ╚═╝  ╚═╝╚═════╝ ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝                                               
         `)
     );
-  } else if (template === "Aii-Group/AII-Converged-Platform#master") {
+  } else if (template === "Aii-Group/AII-Converged-Platform#main") {
     console.log(
       chalk.blue(`
            █████╗ ██╗██╗     ██████╗ ██████╗ ███╗   ██╗██╗   ██╗███████╗██████╗  ██████╗ ███████╗██████╗     ██████╗ ██╗      █████╗ ████████╗███████╗ ██████╗ ██████╗ ███╗   ███╗
@@ -111,7 +110,7 @@ export async function createProject(projectName) {
           ╚═╝  ╚═╝╚═╝╚═╝     ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝  ╚═══╝  ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═════╝     ╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝      ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝                                                                                                                                                                          
         `)
     );
-  } else if (template === "Aii-Group/AII-Robot#master") {
+  } else if (template === "Aii-Group/AII-Robot#main") {
     console.log(
       chalk.blue(`
            █████╗ ██╗██╗    ██████╗  ██████╗ ██████╗  ██████╗ ████████╗
