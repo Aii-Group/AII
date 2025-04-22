@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "type": "module",
   "bin": {
-    "aii": "./src/bin/aii-cli.js"
+    "aii": "src/bin/aii-cli.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
